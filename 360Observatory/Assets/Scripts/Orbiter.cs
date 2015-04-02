@@ -32,8 +32,10 @@ public class Orbiter : MonoBehaviour {
 		radius = Random.Range (5, 30);
 		axis = new Vector3(Random.Range (-1, 1), Random.Range (-1, 1), Random.Range (-1, 1));
 		rotationSpeed = Random.Range (50, 300);
+
+		float scaleFactor = Random.Range(MIN_SIZE, MAX_SIZE);
 		
-		transform.localScale += new Vector3(Random.Range (MIN_SIZE, MAX_SIZE), Random.Range (MIN_SIZE, MAX_SIZE), Random.Range (MIN_SIZE, MAX_SIZE));
+		transform.localScale += new Vector3(scaleFactor, scaleFactor, scaleFactor);
 	}
 	
 	void Update () {

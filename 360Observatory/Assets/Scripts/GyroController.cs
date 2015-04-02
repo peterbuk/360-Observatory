@@ -44,6 +44,10 @@ public class GyroController : MonoBehaviour
 			                                       cameraBase * (ConvertRotation (referanceRotation * Input.gyro.attitude) * Quaternion.identity),
 			                                       lowPassFilterFactor);
 		}
+
+		// quit game
+		if (Input.GetKeyDown(KeyCode.Escape)) 
+			Application.Quit();
 	}
 	
 	/*
