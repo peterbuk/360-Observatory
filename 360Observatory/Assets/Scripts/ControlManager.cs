@@ -11,7 +11,7 @@ public class ControlManager : MonoBehaviour {
 	public Text toggleText;
 	
 	private ArrayList objs;
-	
+
 	private float R;
 	private float G;
 	private float B;
@@ -44,13 +44,11 @@ public class ControlManager : MonoBehaviour {
 		if (shown) {	// minimize it
 			gameObject.SetActive(false);
 			shown = false;
-			toggle.transform.Translate (-210, 0, 0);
 			toggleText.text = ">";
 		}
 		else {	// show it
 			gameObject.SetActive(true);
 			shown = true;
-			toggle.transform.Translate (210, 0, 0);
 			toggleText.text = "<";
 		}
 	}

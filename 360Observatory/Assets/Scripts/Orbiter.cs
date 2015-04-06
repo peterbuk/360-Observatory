@@ -70,6 +70,6 @@ public class Orbiter : MonoBehaviour {
 	void ChangeColour (Color color) 
 	{
 		renderer.material.color = color;
-		mat.SetColor("_Color", color);
+		mat.SetColor("_TintColor", color);
 	}
 }

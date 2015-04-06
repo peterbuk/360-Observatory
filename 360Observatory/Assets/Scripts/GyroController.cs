@@ -33,8 +33,6 @@ public class GyroController : MonoBehaviour
 			AttachGyro();
 	}
 	
-	//private int ddd =0;
-	
 	protected void Update() 
 	{
 		// rotate camera with gyro
@@ -85,28 +83,7 @@ public class GyroController : MonoBehaviour
 	}
 	
 	
-	
-	protected void OnGUI()
-	{
-		GUIStyle customStyle = new GUIStyle ();
-		
-		// set font size accordingly	
-		if (platform == RuntimePlatform.Android) {
-			customStyle.fontSize = 30;
-		}
-		else {
-			customStyle.fontSize = 12;
-		}
-		
-		if (!debug)
-			return;
-		
-		GUILayout.Label("Orientation: " + Screen.orientation, customStyle);
-		GUILayout.Label("Calibration: " + calibration, customStyle);
-		GUILayout.Label("Camera base: " + cameraBase, customStyle);
-		GUILayout.Label("input.gyro.attitude: " + Input.gyro.attitude, customStyle);
-		GUILayout.Label("transform.rotation: " + transform.rotation, customStyle);
-	}
+
 	
 	#endregion
 	
