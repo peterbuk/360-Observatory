@@ -16,6 +16,7 @@ public class Orbiter : MonoBehaviour {
 	
 	private Transform center;
 	TrailRenderer trail;
+	Material mat;
 	
 	// CONSTANTS
 	private const float MIN_SIZE = -0.3f;
@@ -25,6 +26,7 @@ public class Orbiter : MonoBehaviour {
 		center = cam.transform;
 		transform.position = (transform.position - center.position).normalized * radius + center.position;
 		trail = gameObject.GetComponent<TrailRenderer>();
+		mat = trail.material;
 		
 		Random.seed = System.DateTime.Now.Millisecond;
 	}
@@ -63,5 +65,11 @@ public class Orbiter : MonoBehaviour {
 	{
 		transform.localScale = new Vector3 (value, value, value);
 		trail.startWidth = value;
+	}
+	
+	void ChangeColour (Color color) 
+	{
+		renderer.material.color = color;
+		mat.SetColor("_Color", color);
 	}
 }

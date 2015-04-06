@@ -11,11 +11,19 @@ public class ControlManager : MonoBehaviour {
 	public Text toggleText;
 	
 	private ArrayList objs;
+	
+	private float R;
+	private float G;
+	private float B;
 
 	// Use this for initialization
 	void Start () {
 		shown = true;
 		objs = new ArrayList();
+		
+		R = 0f;
+		G = 0f;
+		B = 0f;
 	}
 	
 	// Update is called once per frame
@@ -99,6 +107,31 @@ public class ControlManager : MonoBehaviour {
 			obj.transform.SendMessage("ChangeSize", value);
 		}
 	}
-
 	
+	/*
+	*	Colour change
+	*/
+	public void RChange(float value)
+	{
+		R = value;
+		ColourChange();
+	}
+	public void GChange(float value)
+	{
+		G = value;
+		ColourChange();
+	}
+	public void BChange(float value)
+	{
+		B = value;
+		ColourChange();
+	}
+	
+	public void ColourChange() 
+	{
+		foreach (GameObject obj in objs)
+		{
+			obj.transform.SendMessage("ChangeColour", new Color(R/255, G/255, B/255));
+		}
+	}
 }
