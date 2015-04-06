@@ -15,32 +15,53 @@ public class Orbiter : MonoBehaviour {
 	public float rotationSpeed = 80.0f;
 	
 	private Transform center;
+	TrailRenderer trail;
 	
 	// CONSTANTS
-	private const float MIN_SIZE = -2f;
-	private const float MAX_SIZE = 2f;
+	private const float MIN_SIZE = -0.3f;
+	private const float MAX_SIZE = 0.5f;
 	
 	void Start () {
 		center = cam.transform;
 		transform.position = (transform.position - center.position).normalized * radius + center.position;
+		trail = gameObject.GetComponent<TrailRenderer>();
+		
+		Random.seed = System.DateTime.Now.Millisecond;
 	}
 	
 	/*
 	*	Used to add variety to orbit
 	*/
 	void RandomizeMovement() {
-		radius = Random.Range (5, 30);
-		axis = new Vector3(Random.Range (-1, 1), Random.Range (-1, 1), Random.Range (-1, 1));
+		radius = Random.Range (15, 30);
+		axis = new Vector3(Random.Range (-1f, 1f), Random.Range (-1f, 1f), Random.Range (-1f, 1f));
 		rotationSpeed = Random.Range (50, 300);
 
 		float scaleFactor = Random.Range(MIN_SIZE, MAX_SIZE);
 		
 		transform.localScale += new Vector3(scaleFactor, scaleFactor, scaleFactor);
+		renderer.material.color = new Color(Random.Range(0f, 1f),Random.Range(0f, 1f),Random.Range(0f, 1f));
 	}
 	
 	void Update () {
 		transform.RotateAround (center.position, axis, rotationSpeed * Time.deltaTime);
 		target = (transform.position - center.position).normalized * radius + center.position;
 		transform.position = Vector3.MoveTowards(transform.position, target, Time.deltaTime * radiusSpeed);
+		
+
+	}
+	
+	
+	//**************** Change events
+	
+	void ChangeSpeed (float value)
+	{
+		rotationSpeed = value;
+	}	
+	
+	void ChangeSize (float value)
+	{
+		transform.localScale = new Vector3 (value, value, value);
+		trail.startWidth = value;
 	}
 }

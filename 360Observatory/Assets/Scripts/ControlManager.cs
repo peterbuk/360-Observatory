@@ -4,71 +4,101 @@ using UnityEngine.UI;
 
 public class ControlManager : MonoBehaviour {
 
-	private float SPAWN_RATE = 1.0f;	// how often to spawn an object
-	private float timer;
-	private bool active;
+	private bool shown;
 	
 	public GameObject sphere;
 	public Button toggle;
 	public Text toggleText;
+	
+	private ArrayList objs;
 
 	// Use this for initialization
 	void Start () {
-		timer = SPAWN_RATE;
-		active = true;
+		shown = true;
+		objs = new ArrayList();
 	}
 	
 	// Update is called once per frame
 	void Update () {
-		timer -= Time.deltaTime;
-		
-		if (timer < 0)
-		{
-			timer = SPAWN_RATE;
-			
-			GameObject obj = (GameObject) Instantiate (sphere, sphere.transform.position, Quaternion.identity);
-			obj.SendMessage("RandomizeMovement");
-		}
+
 	}
 	
 	
-	
-	/***************************************************
-	*				Button Events
-	****************************************************/
+	/****************************
+	*			Events
+	*****************************/
 	
 	/*
 	*	Show or hide the control panel
 	*/
 	public void TogglePanel()
 	{
-		if (active) {	// minimize it
+		if (shown) {	// minimize it
 			gameObject.SetActive(false);
-			active = false;
+			shown = false;
 			toggle.transform.Translate (-210, 0, 0);
 			toggleText.text = ">";
 		}
 		else {	// show it
 			gameObject.SetActive(true);
-			active = true;
+			shown = true;
 			toggle.transform.Translate (210, 0, 0);
 			toggleText.text = "<";
 		}
 	}
 	
 	/*
-	*	Turn a value down.
-	*	
+	*	Object change
 	*/
-	public void ValueDown(int type)
+	public void ObjChange(float value)
 	{
-	
+		if (value > objs.Count)
+			SpawnObject();
+		else if (value < objs.Count)
+			DespawnObject();
+		
+	}
+	void SpawnObject()
+	{
+		GameObject obj = (GameObject) Instantiate (sphere, sphere.transform.position, Quaternion.identity);
+		obj.SetActive(true);
+		obj.SendMessage("RandomizeMovement");
+		objs.Add (obj);
+			
+		Debug.Log ("Spawning object " + objs.Count);
+	}
+	void DespawnObject()
+	{
+		if (objs.Count != 0) {
+			Debug.Log ("Despawning object " + objs.Count);
+			GameObject obj = (GameObject) objs[objs.Count -1];
+			Destroy (obj);
+			objs.RemoveAt (objs.Count - 1);
+		}
 	}
 	
-	public void ValueUp(int type)
-	{
 	
+	/*
+	*	Speed change
+	*/
+	public void SpeedChange(float value)
+	{
+		foreach (GameObject obj in objs)
+		{
+			obj.transform.SendMessage("ChangeSpeed", value);
+		}
 	}
 	
+	/*
+	*	Size change
+	*/
+	public void SizeChange(float value)
+	{
+		foreach (GameObject obj in objs)
+		{
+			obj.transform.SendMessage("ChangeSize", value);
+		}
+	}
+
 	
 }
